@@ -7,7 +7,7 @@ import Vehicle from './components/Vehicle';
 import FallingShapes from './components/FallingShapes';
 import { OrbitControls, PerspectiveCamera, Plane } from '@react-three/drei';
 
-async function saveScore(score) {
+async function saveScore(score: number) { // Specify type for score
   const response = await fetch('/api/score', {
     method: 'POST',
     headers: {
