@@ -1,30 +1,22 @@
-// components/Vehicle.js
-"use client";
-
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { RigidBody } from '@react-three/rapier';
-import { Sphere, Cylinder, Box } from '@react-three/drei';
+import { Box, Cylinder, Sphere } from '@react-three/drei';
 import * as THREE from 'three';
 
 export default function Vehicle({ onGameOver }) {
   const vehicleRef = useRef();
+  const [isColliding, setIsColliding] = useState(false);
   const [direction, setDirection] = useState([0, 0, 0]);
   const [cursorPos, setCursorPos] = useState([0, 0]);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if (event.key === 'w') {
-        setDirection([0, 0, -1]); // Move forward
-      }
-      if (event.key === 's') {
-        setDirection([0, 0, 1]); // Move backward
-      }
+      if (event.key === 'w') setDirection([0, 0, -1]); // Move forward
+      if (event.key === 's') setDirection([0, 0, 1]); // Move backward
     };
 
-    const handleKeyUp = () => {
-      setDirection([0, 0, 0]); // Stop movement
-    };
+    const handleKeyUp = () => setDirection([0, 0, 0]); // Stop movement
 
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
@@ -51,34 +43,47 @@ export default function Vehicle({ onGameOver }) {
 
   useFrame(() => {
     if (vehicleRef.current) {
+      const speed = 0.1;
       const forwardVector = new THREE.Vector3();
       vehicleRef.current.getWorldDirection(forwardVector);
+      vehicleRef.current.position.add(forwardVector.multiplyScalar(direction[2] * speed));
 
-      // Move vehicle based on direction
-      const speed = 0.1;
-      vehicleRef.current.position.z += direction[2] * speed;
+      // Rotate the vehicle to face the direction of the cursor
+      const angle = Math.atan2(cursorPos[0], cursorPos[1]);
+      vehicleRef.current.rotation.y = angle;
 
-      // Adjust rotation based on cursor position
-      vehicleRef.current.rotation.y = Math.atan2(cursorPos[0], cursorPos[1]);
+      if (isColliding) {
+        onGameOver();
+      }
     }
   });
 
   return (
-    <group ref={vehicleRef} position={[0, 1, 0]} name="vehicle">
+    <group ref={vehicleRef} position={[0, 1, 0]}>
       {/* Vehicle body */}
       <RigidBody type="kinematicPosition" colliders="cuboid">
-        <Box args={[2, 0.5, 1]} />
+        <Box args={[2, 0.5, 1]} position={[0, 0.25, 0]}>
+          <meshStandardMaterial color="blue" />
+        </Box>
       </RigidBody>
+
       {/* Front wheel */}
-      <RigidBody type="kinematicPosition" position={[0, 1.25, 0.75]} colliders="ball">
-        <Sphere args={[0.5, 16, 16]} />
+      <RigidBody type="kinematicPosition" colliders="ball" position={[0, 0.75, 1]}>
+        <Sphere args={[0.25, 16, 16]}>
+          <meshStandardMaterial color="black" />
+        </Sphere>
       </RigidBody>
+
       {/* Back wheels */}
-      <RigidBody type="kinematicPosition" position={[-0.75, 0.75, -0.5]} colliders="ball">
-        <Cylinder args={[0.25, 0.25, 0.5, 32]} rotation={[Math.PI / 2, 0, 0]} />
+      <RigidBody type="kinematicPosition" colliders="ball" position={[-0.75, 0.75, -0.5]}>
+        <Cylinder args={[0.25, 0.25, 0.1, 32]} rotation={[Math.PI / 2, 0, 0]}>
+          <meshStandardMaterial color="black" />
+        </Cylinder>
       </RigidBody>
-      <RigidBody type="kinematicPosition" position={[0.75, 0.75, -0.5]} colliders="ball">
-        <Cylinder args={[0.25, 0.25, 0.5, 32]} rotation={[Math.PI / 2, 0, 0]} />
+      <RigidBody type="kinematicPosition" colliders="ball" position={[0.75, 0.75, -0.5]}>
+        <Cylinder args={[0.25, 0.25, 0.1, 32]} rotation={[Math.PI / 2, 0, 0]}>
+          <meshStandardMaterial color="black" />
+        </Cylinder>
       </RigidBody>
     </group>
   );
