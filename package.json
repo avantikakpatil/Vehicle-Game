@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@react-three/drei": "^9.112.0",
-    "@react-three/fiber": "^8.17.6",
+    "@react-three/fiber": "^8.17.7",
     "@react-three/rapier": "^1.4.0",
     "@supabase/supabase-js": "^2.45.3",
     "next": "14.2.8",
