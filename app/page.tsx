@@ -1,4 +1,4 @@
-"use client";
+"use client"; // Add this line
 
 import { useState, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
@@ -7,7 +7,7 @@ import Vehicle from './components/Vehicle';
 import FallingShapes from './components/FallingShapes';
 import { OrbitControls, PerspectiveCamera, Plane } from '@react-three/drei';
 
-async function saveScore(score: number) { // Specify type for score
+async function saveScore(score: number) {
   const response = await fetch('/api/score', {
     method: 'POST',
     headers: {
@@ -63,7 +63,7 @@ export default function Page() {
       <ambientLight intensity={0.9} />
       <pointLight position={[20, 20, 20]} />
       <Physics>
-        <Vehicle />
+        <Vehicle onGameOver={handleShapeCollision} />
         <FallingShapes onShapeCollision={handleShapeCollision} />
         <Plane args={[150, 100]} position={[0, -0.5, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
           <meshStandardMaterial color="gray" />
