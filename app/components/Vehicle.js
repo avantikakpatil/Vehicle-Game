@@ -1,12 +1,13 @@
-import { useRef, useEffect, useState } from 'react';
+"use client";
+
+import { useRef, useState, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { RigidBody } from '@react-three/rapier';
-import { Box, Cylinder, Sphere } from '@react-three/drei';
+import { Box, Sphere, Cylinder } from '@react-three/drei';
 import * as THREE from 'three';
 
 export default function Vehicle({ onGameOver }) {
   const vehicleRef = useRef();
-  const [isColliding, setIsColliding] = useState(false);
   const [direction, setDirection] = useState([0, 0, 0]);
   const [cursorPos, setCursorPos] = useState([0, 0]);
 
@@ -51,10 +52,6 @@ export default function Vehicle({ onGameOver }) {
       // Rotate the vehicle to face the direction of the cursor
       const angle = Math.atan2(cursorPos[0], cursorPos[1]);
       vehicleRef.current.rotation.y = angle;
-
-      if (isColliding) {
-        onGameOver();
-      }
     }
   });
 

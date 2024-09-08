@@ -1,9 +1,8 @@
 "use client";
 
-import { useRef, useState, useEffect } from 'react';
-import { useFrame } from '@react-three/fiber';
+import { useState, useEffect } from 'react';
 import { RigidBody } from '@react-three/rapier';
-import { Sphere, Box, Cylinder } from '@react-three/drei';
+import { Box, Sphere, Cylinder } from '@react-three/drei';
 
 export default function FallingShapes({ onShapeCollision }) {
   const [shapes, setShapes] = useState([]);

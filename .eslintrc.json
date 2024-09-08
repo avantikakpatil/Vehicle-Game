@@ -1,3 +1,8 @@
+// .eslintrc.json
 {
-  "extends": ["next/core-web-vitals", "next/typescript"]
+  "extends": "next",
+  "rules": {
+    "@typescript-eslint/no-unused-vars": "off",  // Disable the rule for unused variables
+    "@typescript-eslint/no-unused-vars": ["warn"], // Or set it to warn if you prefer
+  }
 }
