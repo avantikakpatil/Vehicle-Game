@@ -62,25 +62,25 @@ export default function Vehicle({ onGameOver }) {
     <group ref={vehicleRef} position={[0, 1, 0]}>
       {/* Vehicle body */}
       <RigidBody type="kinematicPosition" colliders="cuboid">
-        <Box args={[2, 0.5, 1]} position={[0, 0.25, 0]}>
+        <Box args={[2, 0.5, 1]} position={[0, 0.5, 0]}>
           <meshStandardMaterial color="blue" />
         </Box>
       </RigidBody>
 
       {/* Front wheel */}
-      <RigidBody type="kinematicPosition" colliders="ball" position={[0, 0.75, 1]}>
+      <RigidBody type="kinematicPosition" colliders="ball" position={[0, 0.25, 0.75]}>
         <Sphere args={[0.25, 16, 16]}>
           <meshStandardMaterial color="black" />
         </Sphere>
       </RigidBody>
 
       {/* Back wheels */}
-      <RigidBody type="kinematicPosition" colliders="ball" position={[-0.75, 0.75, -0.5]}>
+      <RigidBody type="kinematicPosition" colliders="ball" position={[-0.75, 0.25, -0.75]}>
         <Cylinder args={[0.25, 0.25, 0.1, 32]} rotation={[Math.PI / 2, 0, 0]}>
           <meshStandardMaterial color="black" />
         </Cylinder>
       </RigidBody>
-      <RigidBody type="kinematicPosition" colliders="ball" position={[0.75, 0.75, -0.5]}>
+      <RigidBody type="kinematicPosition" colliders="ball" position={[0.75, 0.25, -0.75]}>
         <Cylinder args={[0.25, 0.25, 0.1, 32]} rotation={[Math.PI / 2, 0, 0]}>
           <meshStandardMaterial color="black" />
         </Cylinder>
