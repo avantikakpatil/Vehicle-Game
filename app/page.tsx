@@ -2,10 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { Physics } from '@react-three/rapier';
+import { Physics, RigidBody } from '@react-three/rapier';
 import Vehicle from './components/Vehicle';
 import FallingShapes from './components/FallingShapes';
-import { OrbitControls, PerspectiveCamera, Plane } from '@react-three/drei';
+import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
+import { Box } from '@react-three/drei';
 
 async function saveScore(score: number) {
   const response = await fetch('/api/score', {
@@ -25,6 +26,14 @@ export default function Page() {
   const [gameOver, setGameOver] = useState(false);
   const [score, setScore] = useState(0);
   const [scoreSubmitted, setScoreSubmitted] = useState(false);
+
+  const handleGameOver = () => {
+    setGameOver(true);
+    if (!scoreSubmitted) {
+      saveScore(score);
+      setScoreSubmitted(true);
+    }
+  };
 
   const handleShapeCollision = () => {
     setGameOver(true);
@@ -62,13 +71,22 @@ export default function Page() {
       <PerspectiveCamera makeDefault position={[0, 8, 10]} fov={75} near={0.1} far={1000} />
       <ambientLight intensity={0.9} />
       <pointLight position={[20, 20, 20]} />
+      
       <Physics>
-        <Vehicle onGameOver={handleShapeCollision} />
+        {/* Add the vehicle */}
+        <Vehicle onGameOver={handleGameOver} />
+
+        {/* Add ground */}
+        <RigidBody type="fixed" colliders="cuboid" position={[0, -0.25, 0]}>
+          <Box args={[100, 0.5, 100]}>
+            <meshStandardMaterial color="gray" />
+          </Box>
+        </RigidBody>
+
+        {/* Add falling shapes */}
         <FallingShapes onShapeCollision={handleShapeCollision} />
-        <Plane args={[150, 100]} position={[0, -0.5, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-          <meshStandardMaterial color="gray" />
-        </Plane>
       </Physics>
+      
       <OrbitControls enableZoom={false} />
     </Canvas>
   );
