@@ -1,7 +1,7 @@
-import { RigidBody } from '@react-three/rapier';
-import { useState, useEffect } from 'react';
-import { Box, Sphere, Cone } from '@react-three/drei';
-import * as THREE from 'three';
+import { RigidBody } from "@react-three/rapier";
+import { useState, useEffect } from "react";
+import { Box, Sphere, Cone } from "@react-three/drei";
+import * as THREE from "three";
 
 export default function FallingShapes({ onShapeCollision }) {
   const [shapes, setShapes] = useState([]);
@@ -57,7 +57,7 @@ export default function FallingShapes({ onShapeCollision }) {
             restitution={0.5} // Ensure bounce effect when hitting the ground
             onCollisionEnter={({ other }) => {
               // Check if the shape is colliding with the car (tagged as 'vehicle')
-              if (other.rigidBodyObject?.userData?.tag === 'vehicle') {
+              if (other.rigidBodyObject?.userData?.tag === "vehicle") {
                 onShapeCollision(); // Trigger game over when shape hits the vehicle
               }
             }}
