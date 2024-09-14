@@ -59,9 +59,14 @@ export default function Page() {
       <div style={{ textAlign: 'center', marginTop: '20%' }}>
         <h1>Game Over</h1>
         <h2>Your Score: {score}</h2>
+        {/* Add Restart button */}
+        <button onClick={() => window.location.reload()} style={{ padding: '10px 20px', fontSize: '16px', cursor: 'pointer' }}>
+          Restart
+        </button>
       </div>
     );
   }
+  
 
   return (
     <Canvas
