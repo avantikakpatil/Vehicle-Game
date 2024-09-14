@@ -1,12 +1,10 @@
-// components/Vehicle.js
-
 'use client'; // Add this line
 
-import { useRef, useState, useEffect } from 'react'; // Ensure useState is imported
-import { RigidBody } from '@react-three/rapier';
-import { Box, Sphere, Cylinder } from '@react-three/drei';
-import { useFrame } from '@react-three/fiber';
-import * as THREE from 'three';
+import { useRef, useState, useEffect } from "react"; // Ensure useState is imported
+import { RigidBody } from "@react-three/rapier";
+import { Box, Sphere, Cylinder } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
+import * as THREE from "three";
 
 export default function Vehicle({ onGameOver }) {
   const vehicleRef = useRef(null);
@@ -74,6 +72,12 @@ export default function Vehicle({ onGameOver }) {
           y: vehicleBody.linvel().y,
           z: 0,
         });
+      }
+
+      // Access position directly
+      const position = vehicleBody.translation(); // Adjust based on Rapier's API
+      if (position.y < -10) {
+        onGameOver(); // Trigger game over when the vehicle falls below a certain height
       }
     }
   });
