@@ -79,62 +79,33 @@ export default function Vehicle() {
   });
 
   return (
-    <group ref={vehicleRef} position={[0, 0, 0]}>
+    <RigidBody
+      ref={vehicleRef}
+      type="dynamic"
+      colliders="cuboid"
+      userData={{ tag: "vehicle" }}
+      linearDamping={0.8}
+      angularDamping={10}
+    >
       {/* Vehicle Body */}
-      <RigidBody
-        ref={vehicleRef}
-        type="dynamic"
-        colliders="cuboid"
-        userData={{ tag: "vehicle" }}
-        linearDamping={0.8}
-        angularDamping={10}
-      >
-        <Box args={[2, 0.5, 1]} position={[0, 0.25, 0]}>
-          <meshStandardMaterial color="blue" />
-        </Box>
-      </RigidBody>
+      <Box args={[2, 0.5, 1]} position={[0, 0.25, 0]}>
+        <meshStandardMaterial color="blue" />
+      </Box>
 
       {/* Front Wheel */}
-      <RigidBody
-        type="dynamic"
-        colliders="ball"
-        position={[0, 0.25, 0.75]}
-        gravityScale={0}
-        linearDamping={1.0}
-        angularDamping={10}
-      >
-        <Sphere args={[0.25, 16, 16]}>
-          <meshStandardMaterial color="black" />
-        </Sphere>
-      </RigidBody>
+      <Sphere args={[0.25, 16, 16]} position={[0, 0.25, 0.75]}>
+        <meshStandardMaterial color="black" />
+      </Sphere>
 
       {/* Back Left Wheel */}
-      <RigidBody
-        type="dynamic"
-        colliders="ball"
-        position={[-0.75, 0.25, -0.75]}
-        gravityScale={0}
-        linearDamping={1.0}
-        angularDamping={10}
-      >
-        <Cylinder args={[0.25, 0.25, 0.1, 32]} rotation={[Math.PI / 2, 0, 0]}>
-          <meshStandardMaterial color="black" />
-        </Cylinder>
-      </RigidBody>
+      <Cylinder args={[0.25, 0.25, 0.1, 32]} position={[-0.75, 0.25, -0.75]} rotation={[Math.PI / 2, 0, 0]}>
+        <meshStandardMaterial color="black" />
+      </Cylinder>
 
       {/* Back Right Wheel */}
-      <RigidBody
-        type="dynamic"
-        colliders="ball"
-        position={[0.75, 0.25, -0.75]}
-        gravityScale={0}
-        linearDamping={1.0}
-        angularDamping={10}
-      >
-        <Cylinder args={[0.25, 0.25, 0.1, 32]} rotation={[Math.PI / 2, 0, 0]}>
-          <meshStandardMaterial color="black" />
-        </Cylinder>
-      </RigidBody>
-    </group>
+      <Cylinder args={[0.25, 0.25, 0.1, 32]} position={[0.75, 0.25, -0.75]} rotation={[Math.PI / 2, 0, 0]}>
+        <meshStandardMaterial color="black" />
+      </Cylinder>
+    </RigidBody>
   );
 }
