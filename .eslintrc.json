@@ -1,5 +1,15 @@
 {
+  "extends": [
+    "next",
+    "next/core-web-vitals",
+    "eslint:recommended"
+  ],
   "rules": {
-    "quotes": ["error", "single"]
+    "quotes": ["error", "double"],
+    "semi": ["error", "always"]
+  },
+  "parserOptions": {
+    "ecmaVersion": 2021,
+    "sourceType": "module"
   }
 }
