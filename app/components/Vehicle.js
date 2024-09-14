@@ -1,10 +1,14 @@
-import { useRef, useEffect, useState } from "react";
-import { useFrame } from "@react-three/fiber";
-import { RigidBody } from "@react-three/rapier";
-import { Box, Cylinder, Sphere } from "@react-three/drei";
-import * as THREE from "three";
+// components/Vehicle.js
 
-export default function Vehicle() {
+'use client'; // Add this line
+
+import { useRef, useState, useEffect } from 'react'; // Ensure useState is imported
+import { RigidBody } from '@react-three/rapier';
+import { Box, Sphere, Cylinder } from '@react-three/drei';
+import { useFrame } from '@react-three/fiber';
+import * as THREE from 'three';
+
+export default function Vehicle({ onGameOver }) {
   const vehicleRef = useRef(null);
 
   const [moveForward, setMoveForward] = useState(false);
@@ -35,7 +39,6 @@ export default function Vehicle() {
       const vehicleBody = vehicleRef.current;
       const speed = 5;
 
-      // Get the rotation of the vehicle in quaternion form
       const rotation = vehicleBody.rotation();
       const quaternion = new THREE.Quaternion(
         rotation.x,
@@ -44,17 +47,15 @@ export default function Vehicle() {
         rotation.w
       );
 
-      // Forward direction vector
       const forwardDirection = new THREE.Vector3(0, 0, -1).applyQuaternion(
         quaternion
       );
 
-      // Update velocity based on user input
       if (moveForward) {
         const forwardVelocity = forwardDirection.multiplyScalar(speed);
         vehicleBody.setLinvel({
           x: forwardVelocity.x,
-          y: vehicleBody.linvel().y, // Keep vertical velocity unchanged
+          y: vehicleBody.linvel().y,
           z: forwardVelocity.z,
         });
       }
@@ -62,16 +63,15 @@ export default function Vehicle() {
         const backwardVelocity = forwardDirection.multiplyScalar(-speed);
         vehicleBody.setLinvel({
           x: backwardVelocity.x,
-          y: vehicleBody.linvel().y, // Keep vertical velocity unchanged
+          y: vehicleBody.linvel().y,
           z: backwardVelocity.z,
         });
       }
 
-      // Stop the vehicle if no key is pressed
       if (!moveForward && !moveBackward) {
         vehicleBody.setLinvel({
           x: 0,
-          y: vehicleBody.linvel().y, // Preserve gravity or vertical forces
+          y: vehicleBody.linvel().y,
           z: 0,
         });
       }

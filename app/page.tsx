@@ -1,4 +1,5 @@
-"use client"; // Add this line
+// app/page.tsx
+'use client'; // Add this line
 
 import { useState, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
@@ -43,11 +44,10 @@ export default function Page() {
     }
   };
 
-  // Example to increase the score over time or based on certain events
   useEffect(() => {
     if (!gameOver) {
       const interval = setInterval(() => {
-        setScore((prev) => prev + 1); // Increment score every second
+        setScore((prev) => prev + 1);
       }, 1000);
 
       return () => clearInterval(interval);
@@ -59,14 +59,12 @@ export default function Page() {
       <div style={{ textAlign: 'center', marginTop: '20%' }}>
         <h1>Game Over</h1>
         <h2>Your Score: {score}</h2>
-        {/* Add Restart button */}
         <button onClick={() => window.location.reload()} style={{ padding: '10px 20px', fontSize: '16px', cursor: 'pointer' }}>
           Restart
         </button>
       </div>
     );
   }
-  
 
   return (
     <Canvas
@@ -76,7 +74,7 @@ export default function Page() {
       <PerspectiveCamera makeDefault position={[0, 8, 10]} fov={75} near={0.1} far={1000} />
       <ambientLight intensity={0.9} />
       <pointLight position={[20, 20, 20]} />
-      
+
       <Physics>
         {/* Add the vehicle */}
         <Vehicle onGameOver={handleGameOver} />
@@ -91,7 +89,7 @@ export default function Page() {
         {/* Add falling shapes */}
         <FallingShapes onShapeCollision={handleShapeCollision} />
       </Physics>
-      
+
       <OrbitControls enableZoom={false} />
     </Canvas>
   );
