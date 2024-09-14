@@ -1,4 +1,4 @@
-'use client'; // Add this line
+"use client"; // Add this line
 
 import { useRef, useState, useEffect } from "react"; // Ensure useState is imported
 import { RigidBody } from "@react-three/rapier";
